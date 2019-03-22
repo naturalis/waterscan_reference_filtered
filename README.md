@@ -23,3 +23,8 @@ The python script derepfilter.py is used to retrive accessions and write the seq
 ```
 python derepfilter.py
 ```
+
+# Diatome 18S selection
+## files used
+
+## steps
