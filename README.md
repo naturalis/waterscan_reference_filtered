@@ -26,10 +26,10 @@ python derepfilter.py
 
 # Diatome 18S selection
 ## files used
-18S.fa indexed as blastn database (See wiki of galaxy-tool-BLAST private)
-18S.map (See wiki of galaxy-tool-BLAST private)
-rankedlineage.dmp
-PhytoDiatom.xlsx
+* 18S.fa indexed as blastn database (See wiki of galaxy-tool-BLAST private)
+* 18S.map (See wiki of galaxy-tool-BLAST private)
+* rankedlineage.dmp
+* PhytoDiatom.xlsx
 
 ## steps
 Extract list of genera from rankedlineage.dmp
