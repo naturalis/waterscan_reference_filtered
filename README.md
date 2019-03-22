@@ -26,5 +26,21 @@ python derepfilter.py
 
 # Diatome 18S selection
 ## files used
+18S.fa indexed as blastn database (See wiki of galaxy-tool-BLAST private)
+18S.map (See wiki of galaxy-tool-BLAST private)
+rankedlineage.dmp
+PhytoDiatom.xlsx
 
 ## steps
+Extract list of genera from rankedlineage.dmp
+```
+while read line; do grep -wF "$line" rankedlineage.dmp; done < list.txt > diatome_rankedlineage.dmp
+```
+Execute extract.py, paths are hardcoded
+```
+python extract.py
+```
+Extract reads from 18S.fa
+```
+ncbi-blast-2.8.1+/bin/blastdbcmd -db 18S.fa -entry_batch accessions.txt > di                                                        atomeselection.fa
+```
