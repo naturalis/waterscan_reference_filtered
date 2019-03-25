@@ -42,5 +42,5 @@ python extract.py
 ```
 Extract reads from 18S.fa
 ```
-ncbi-blast-2.8.1+/bin/blastdbcmd -db 18S.fa -entry_batch accessions.txt > di                                                        atomeselection.fa
+ncbi-blast-2.8.1+/bin/blastdbcmd -db 18S.fa -entry_batch accessions.txt > diatomeselection.fa
 ```
