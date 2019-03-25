@@ -24,23 +24,74 @@ The python script derepfilter.py is used to retrive accessions and write the seq
 python derepfilter.py
 ```
 
-# Diatome 18S selection
+# Diatome 18S selection genera
 ## files used
-* 18S.fa indexed as blastn database (See wiki of galaxy-tool-BLAST private)
+* 18S.fa (See wiki of galaxy-tool-BLAST private)
 * 18S.map (See wiki of galaxy-tool-BLAST private)
 * rankedlineage.dmp
 * PhytoDiatom.xlsx
 
 ## steps
+```
+mkdir output_genera
+```
 Extract list of genera from rankedlineage.dmp
 ```
-while read line; do grep -wF "$line" rankedlineage.dmp; done < list.txt > diatome_rankedlineage.dmp
+while read line; do grep -wF "$line" rankedlineage.dmp; done < list_diatome_genera.txt > output_genera/diatome_rankedlineage_genera.dmp
 ```
-Execute extract.py, paths are hardcoded
+Extract taxonids from output_genera/diatome_rankedlineage_genera.dmp 
 ```
-python extract.py
+awk -F "\t|\t" '{print $1}' output_genera/diatome_rankedlineage_genera.dmp > output_genera/diatome_taxonids_genera.dmp 
 ```
-Extract reads from 18S.fa
+create temporary V5 blast database
 ```
-ncbi-blast-2.8.1+/bin/blastdbcmd -db 18S.fa -entry_batch accessions.txt > diatomeselection.fa
+makeblastdb2.8.0 -in 18S.fa -dbtype nucl -taxid_map 18S.map -parse_seqids -blastdb_version 5 -out 18S_V5
+```
+Extract reads from V5 18S.fa blast database
+```
+ncbi-blast-2.8.0+/bin/blastdbcmd -db 18S_V5 -taxidlist diatome_taxonids_genera.dmp > diatomeselection_18S_genera.fa
+```
+create indexed blast database
+```
+ncbi-blast-2.8.0+/bin/makeblastdb -in diatomeselection_18S_genera.fa -dbtype nucl -taxid_map 18S.map -parse_seqids
+```
+remove temporary V5 blast database
+```
+rm 18S_V5.*
+```
+
+# Diatome 18S selection orders
+## files used
+* 18S.fa (See wiki of galaxy-tool-BLAST private)
+* 18S.map (See wiki of galaxy-tool-BLAST private)
+* rankedlineage.dmp
+* PhytoDiatom.xlsx
+
+## steps
+```
+mkdir output_order
+```
+Extract list of genera from rankedlineage.dmp
+```
+while read line; do grep -wF "$line" rankedlineage.dmp; done < list_diatome_orders.txt > output_order/diatome_rankedlineage_order.dmp
+```
+Extract taxonids from output_genera/diatome_rankedlineage_genera.dmp 
+```
+awk -F "\t|\t" '{print $1}' output_order/diatome_rankedlineage_order.dmp > output_order/diatome_taxonids_order.dmp 
+```
+create temporary V5 blast database
+```
+ncbi-blast-2.8.0+/bin/makeblastdb -in 18S.fa -dbtype nucl -taxid_map 18S.map -parse_seqids -blastdb_version 5 -out 18S_V5
+```
+Extract reads from V5 18S.fa blast database
+```
+ncbi-blast-2.8.0+/bin/blastdbcmd -db 18S_V5 -taxidlist diatome_taxonids_order.dmp > diatomeselection_18S_order.fa
+```
+create indexed blast database
+```
+ncbi-blast-2.8.0+/bin/makeblastdb -in diatomeselection_18S_order.fa -dbtype nucl -taxid_map 18S.map -parse_seqids
+```
+remove temporary V5 blast database
+```
+rm 18S_V5.*
 ```
