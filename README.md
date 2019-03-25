@@ -71,9 +71,17 @@ rm 18S_V5.*
 ```
 mkdir output_order
 ```
+Make order name list
+```
+awk -F "\t|\t" '{print $11}' output_genera/diatome_rankedlineage_genera.dmp | sort | uniq > orders_based_on_genera.txt
+```
+manually remove first empty line
+```
+sudo nano orders_based_on_genera.txt
+```
 Extract list of genera from rankedlineage.dmp
 ```
-while read line; do grep -wF "$line" rankedlineage.dmp; done < list_diatome_orders.txt > output_order/diatome_rankedlineage_order.dmp
+while read line; do grep -wF "$line" rankedlineage.dmp; done < orders_based_on_genera.txt > output_order/diatome_rankedlineage_order.dmp
 ```
 Extract taxonids from output_genera/diatome_rankedlineage_genera.dmp 
 ```
