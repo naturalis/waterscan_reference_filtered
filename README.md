@@ -39,6 +39,14 @@ Extract list of genera from rankedlineage.dmp
 ```
 while read line; do grep -wF "$line" rankedlineage.dmp; done < list_diatome_genera.txt > output_genera/diatome_rankedlineage_genera.dmp
 ```
+Manually remove the following from the list
+```
+Araneae
+Coleoptera
+Diptera
+Hemiptera
+Lepidoptera
+```
 Extract taxonids from output_genera/diatome_rankedlineage_genera.dmp 
 ```
 awk -F "\t|\t" '{print $1}' output_genera/diatome_rankedlineage_genera.dmp > output_genera/diatome_taxonids_genera.dmp 
